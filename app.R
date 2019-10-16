@@ -14,12 +14,14 @@ library(shiny)
 library(leaflet)
 library(dplyr)
 library(leaflet.extras)
+
+library(jsonlite)
 pdf(NULL)
 
 #import data
-earthquake<-read.csv("earthquakes.csv")
-#earthquake <- read.csv("C:/Users/user/Desktop/MINI 1/R-shiny/project2/work_on_this/earthquakes.csv")
-
+#earthquake<-read.csv("earthquakes.csv")
+asia <- readOGR("C:/Users/user/Desktop/MINI 1/R-shiny/project2/work_on_this/custom.geo.json")
+earthquake <- read.csv("C:/Users/user/Desktop/MINI 1/R-shiny/project2/work_on_this/earthquakes.csv")
 #define depth level as a categorical variable based on depth
 earthquake$depth_level<-"Medium"
 earthquake$depth_level[earthquake$Depth<70]<-"Shallow"
@@ -106,9 +108,10 @@ server <- function(input, output,session) {
             #add markers on base maps
             addProviderTiles("Esri.WorldImagery",group="World Imagery") %>%
             addProviderTiles("Stamen.TonerLite",group="Toner Lite")%>%
+            addPolygons(data=asia,color="black",group="See how Asia is affected",weight=2)%>%
             addLayersControl(
                 baseGroups = c("World Imagery",  "Toner Lite"),
-                
+                overlayGroups = ("See how Asia is affected"),
                 options = layersControlOptions(collapsed = FALSE)
             )
            
