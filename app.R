@@ -3,6 +3,7 @@
 
 
 library(plotly)
+library(rgdal) 
 library(shinydashboard)
 library(reshape2)
 library(shinythemes)
@@ -19,9 +20,9 @@ library(jsonlite)
 pdf(NULL)
 
 #import data
-#earthquake<-read.csv("earthquakes.csv")
-asia <- readOGR("C:/Users/user/Desktop/MINI 1/R-shiny/project2/work_on_this/custom.geo.json")
-earthquake <- read.csv("C:/Users/user/Desktop/MINI 1/R-shiny/project2/work_on_this/earthquakes.csv")
+earthquake<-read.csv("earthquakes.csv")
+asia<-readOGR("custom.geo.json")
+
 #define depth level as a categorical variable based on depth
 earthquake$depth_level<-"Medium"
 earthquake$depth_level[earthquake$Depth<70]<-"Shallow"
@@ -107,10 +108,11 @@ server <- function(input, output,session) {
         leaflet() %>%
             #add markers on base maps
             addProviderTiles("Esri.WorldImagery",group="World Imagery") %>%
-            addProviderTiles("Stamen.TonerLite",group="Toner Lite")%>%
-            addPolygons(data=asia,color="black",group="See how Asia is affected",weight=2)%>%
+            addProviderTiles("Stamen.Toner.Lite",group="Toner.Lite")%>%
+            addPolygons(data=asia,color="navy",group="See how Asia is affected",weight=2)%>%
+        
             addLayersControl(
-                baseGroups = c("World Imagery",  "Toner Lite"),
+                baseGroups = c("World Imagery",  "Toner"),
                 overlayGroups = ("See how Asia is affected"),
                 options = layersControlOptions(collapsed = FALSE)
             )
