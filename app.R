@@ -112,7 +112,7 @@ server <- function(input, output,session) {
             addPolygons(data=asia,color="navy",group="See how Asia is affected",weight=2)%>%
         
             addLayersControl(
-                baseGroups = c("World Imagery",  "Toner"),
+                baseGroups = c("World Imagery",  "Toner.Lite"),
                 overlayGroups = ("See how Asia is affected"),
                 options = layersControlOptions(collapsed = FALSE)
             )
